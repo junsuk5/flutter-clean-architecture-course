@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:image_search/data/pixabay_api.dart';
 import 'package:image_search/model/photo.dart';
 
 class PhotoWidget extends StatelessWidget {
@@ -17,7 +16,7 @@ class PhotoWidget extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(16.0)),
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: NetworkImage(photo.previewUrl),
+          image: NetworkImage(photo.previewURL),
         ),
       ),
     );

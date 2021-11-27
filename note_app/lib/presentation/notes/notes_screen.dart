@@ -49,6 +49,21 @@ class NotesScreen extends StatelessWidget {
               .map(
                 (note) => NoteItem(
                   note: note,
+                  onDeleteTap: () {
+                    viewModel.onEvent(NotesEvent.deleteNote(note));
+
+                    final snackBar = SnackBar(
+                      content: const Text('노트가 삭제되었습니다'),
+                      action: SnackBarAction(
+                        label: '취소',
+                        onPressed: () {
+                          viewModel.onEvent(const NotesEvent.restoreNote());
+                        },
+                      ),
+                    );
+
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  },
                 ),
               )
               .toList(),

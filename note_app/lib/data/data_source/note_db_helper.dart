@@ -1,10 +1,10 @@
 import 'package:flutter_note_app/domain/model/note.dart';
 import 'package:sqflite/sqflite.dart';
 
-class NoteDb {
+class NoteDbHelper {
   Database db;
 
-  NoteDb(this.db);
+  NoteDbHelper(this.db);
 
   Future<Note?> getNoteById(int id) async {
     // SELECT * FROM note WHERE id = 1

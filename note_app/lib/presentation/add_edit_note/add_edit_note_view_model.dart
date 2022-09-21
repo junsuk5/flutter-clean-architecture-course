@@ -18,7 +18,14 @@ class AddEditNoteViewModel with ChangeNotifier {
 
   Stream<AddEditNoteUiEvent> get eventStream => _eventController.stream;
 
-  AddEditNoteViewModel(this.repository);
+  AddEditNoteViewModel(this.repository, {Note? note}) {
+    _state = state.copyWith(
+      note: note,
+      color: note?.color ?? roseBud.value,
+    );
+
+    notifyListeners();
+  }
 
   AddEditNoteState get state => _state;
 

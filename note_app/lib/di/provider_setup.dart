@@ -37,6 +37,6 @@ Future<List<SingleChildWidget>> getProviders() async {
 
   return [
     ChangeNotifierProvider(create: (_) => notesViewModel),
-    ChangeNotifierProvider(create: (_) => addEditNoteViewModel),
+    Provider(create: (_) => repository),
   ];
 }

@@ -39,7 +39,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
     }
 
     Future.microtask(() {
-      final viewModel = context.read<AddEditNoteViewModel>();
+        final viewModel = context.read<AddEditNoteViewModel>();
 
       _streamSubscription = viewModel.eventStream.listen((event) {
         event.when(

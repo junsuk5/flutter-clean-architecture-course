@@ -5,7 +5,9 @@ import 'package:flutter_note_app/domain/util/note_order.dart';
 import 'package:flutter_note_app/domain/util/order_type.dart';
 import 'package:flutter_note_app/presentation/notes/notes_event.dart';
 import 'package:flutter_note_app/presentation/notes/notes_state.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class NotesViewModel with ChangeNotifier {
   final UseCases useCases;
 

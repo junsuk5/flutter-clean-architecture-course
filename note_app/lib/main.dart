@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_note_app/di/provider_setup.dart';
 import 'package:flutter_note_app/presentation/notes/notes_screen.dart';
 import 'package:flutter_note_app/ui/colors.dart';
+
+import 'di/setup_di.dart';
 
 void main() async {
   // 플랫폼 채널의 위젯 바인딩을 보장
   WidgetsFlutterBinding.ensureInitialized();
 
-  await setupDi();
+  await configureDependencies();
 
   runApp(const MyApp());
 }

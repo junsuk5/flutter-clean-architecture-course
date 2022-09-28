@@ -6,9 +6,11 @@ import 'package:flutter_note_app/domain/repository/note_repository.dart';
 import 'package:flutter_note_app/presentation/add_edit_note/add_edit_note_event.dart';
 import 'package:flutter_note_app/presentation/add_edit_note/add_edit_note_ui_event.dart';
 import 'package:flutter_note_app/ui/colors.dart';
+import 'package:injectable/injectable.dart';
 
 import 'add_edit_note_state.dart';
 
+@injectable
 class AddEditNoteViewModel with ChangeNotifier {
   final NoteRepository repository;
 

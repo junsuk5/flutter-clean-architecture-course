@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_note_app/domain/repository/note_repository.dart';
 import 'package:flutter_note_app/presentation/add_edit_note/add_edit_note_screen.dart';
 import 'package:flutter_note_app/presentation/notes/components/order_section.dart';
 import 'package:flutter_note_app/presentation/notes/notes_event.dart';
 import 'package:flutter_note_app/presentation/notes/notes_view_model.dart';
 import 'package:provider/provider.dart';
 
-import '../../di/provider_setup.dart';
+import '../../di/setup_di.dart';
 import '../add_edit_note/add_edit_note_view_model.dart';
 import 'components/note_item.dart';
 
@@ -81,7 +80,9 @@ class NotesScreen extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) {
                                 return ChangeNotifierProvider(
-                                  create: (_) => getIt.get<AddEditNoteViewModel>()..setNote(note),
+                                  create: (_) =>
+                                      getIt.get<AddEditNoteViewModel>()
+                                        ..setNote(note),
                                   child: AddEditNoteScreen(
                                     note: note,
                                   ),

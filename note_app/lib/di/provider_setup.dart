@@ -15,15 +15,16 @@ import 'package:sqflite/sqflite.dart';
 final getIt = GetIt.instance;
 
 Future setupDi() async {
-  getIt.registerSingletonAsync(() => openDatabase(
-        'notes_db',
-        version: 1,
-        onCreate: (db, version) async {
-          await db.execute(
-              'CREATE TABLE note (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, color INTEGER, timestamp INTEGER)');
-        },
-      ));
-  getIt.registerSingleton(NoteDbHelper(await getIt.getAsync()));
+  Database database = await openDatabase(
+    'notes_db',
+    version: 1,
+    onCreate: (db, version) async {
+      await db.execute(
+          'CREATE TABLE note (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, color INTEGER, timestamp INTEGER)');
+    },
+  );
+  getIt.registerSingleton(database);
+  getIt.registerSingleton(NoteDbHelper(getIt.get()));
   getIt.registerSingleton<NoteRepository>(NoteRepositoryImpl(getIt.get()));
   getIt.registerSingleton(AddNoteUseCase(getIt.get()));
   getIt.registerSingleton(DeleteNoteUseCase(getIt.get()));

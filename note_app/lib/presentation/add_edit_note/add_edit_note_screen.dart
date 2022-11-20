@@ -8,9 +8,8 @@ import 'package:flutter_note_app/ui/colors.dart';
 import 'package:provider/provider.dart';
 
 class AddEditNoteScreen extends StatefulWidget {
-  final Note? note;
 
-  const AddEditNoteScreen({Key? key, this.note}) : super(key: key);
+  const AddEditNoteScreen({Key? key}) : super(key: key);
 
   @override
   State<AddEditNoteScreen> createState() => _AddEditNoteScreenState();
@@ -32,11 +31,6 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
   @override
   void initState() {
     super.initState();
-
-    if (widget.note != null) {
-      _titleController.text = widget.note!.title;
-      _contentController.text = widget.note!.content;
-    }
 
     Future.microtask(() {
       final viewModel = context.read<AddEditNoteViewModel>();
@@ -66,12 +60,18 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<AddEditNoteViewModel>();
+    final state = viewModel.state;
+
+    if (state.note != null) {
+      _titleController.text = state.note!.title;
+      _contentController.text = state.note!.content;
+    }
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           viewModel.onEvent(AddEditNoteEvent.saveNote(
-            widget.note == null ? null : widget.note!.id,
+            state.note == null ? null : state.note!.id,
             _titleController.text,
             _contentController.text,
           ));

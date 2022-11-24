@@ -86,9 +86,7 @@ class NotesScreen extends StatelessWidget {
                             final repository =
                                 context.read<NoteRepository>();
 
-                            final nextScreen = AddEditNoteScreen(
-                              note: note,
-                            );
+                            const nextScreen = AddEditNoteScreen();
 
                             final viewModel = AddEditNoteViewModel(repository, note: note);
 

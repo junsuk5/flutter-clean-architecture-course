@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_note_app/domain/model/note.dart';
 import 'package:flutter_note_app/presentation/add_edit_note/add_edit_note_event.dart';
 import 'package:flutter_note_app/presentation/add_edit_note/add_edit_note_view_model.dart';
 import 'package:flutter_note_app/ui/colors.dart';
 import 'package:provider/provider.dart';
 
 class AddEditNoteScreen extends StatefulWidget {
-
   const AddEditNoteScreen({Key? key}) : super(key: key);
 
   @override
@@ -33,7 +31,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
     super.initState();
 
     Future.microtask(() {
-        final viewModel = context.read<AddEditNoteViewModel>();
+      final viewModel = context.read<AddEditNoteViewModel>();
 
       _streamSubscription = viewModel.eventStream.listen((event) {
         event.when(
@@ -62,19 +60,13 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
     final viewModel = context.watch<AddEditNoteViewModel>();
     final state = viewModel.state;
 
-    if (state.note != null) {
-      _titleController.text = state.note!.title;
-      _contentController.text = state.note!.content;
-    }
+    _titleController.text = state.title;
+    _contentController.text = state.content;
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          viewModel.onEvent(AddEditNoteEvent.saveNote(
-            state.note == null ? null : state.note!.id,
-            _titleController.text,
-            _contentController.text,
-          ));
+          viewModel.onEvent(const AddEditNoteEvent.saveNote());
         },
         child: const Icon(Icons.save),
       ),
@@ -107,6 +99,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
                   .toList(),
             ),
             TextField(
+              onChanged: viewModel.setTitle,
               controller: _titleController,
               maxLines: 1,
               style: Theme.of(context).textTheme.headline5!.copyWith(
@@ -118,6 +111,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
               ),
             ),
             TextField(
+              onChanged: viewModel.setContent,
               controller: _contentController,
               maxLines: null,
               style: Theme.of(context).textTheme.bodyText1!.copyWith(

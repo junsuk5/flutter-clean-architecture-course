@@ -3,6 +3,7 @@ import 'package:flutter_note_app/presentation/add_edit_note/add_edit_note_screen
 import 'package:flutter_note_app/presentation/notes/components/order_section.dart';
 import 'package:flutter_note_app/presentation/notes/notes_event.dart';
 import 'package:flutter_note_app/presentation/notes/notes_view_model.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'components/note_item.dart';
@@ -33,10 +34,7 @@ class NotesScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          bool? isSaved = await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddEditNoteScreen()),
-          );
+          bool? isSaved = await context.push('/add_edit_note');
 
           if (isSaved != null && isSaved) {
             viewModel.onEvent(const NotesEvent.loadNotes());
@@ -63,14 +61,8 @@ class NotesScreen extends StatelessWidget {
                 .map(
                   (note) => GestureDetector(
                     onTap: () async {
-                      bool? isSaved = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AddEditNoteScreen(
-                            note: note,
-                          ),
-                        ),
-                      );
+                      bool? isSaved =
+                          await context.push('/add_edit_note/${note.id}');
 
                       if (isSaved != null && isSaved) {
                         viewModel.onEvent(const NotesEvent.loadNotes());

@@ -8,9 +8,9 @@ import 'package:flutter_note_app/ui/colors.dart';
 import 'package:provider/provider.dart';
 
 class AddEditNoteScreen extends StatefulWidget {
-  final Note? note;
+  final int? noteId;
 
-  const AddEditNoteScreen({Key? key, this.note}) : super(key: key);
+  const AddEditNoteScreen({Key? key, this.noteId}) : super(key: key);
 
   @override
   State<AddEditNoteScreen> createState() => _AddEditNoteScreenState();
@@ -33,10 +33,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
   void initState() {
     super.initState();
 
-    if (widget.note != null) {
-      _titleController.text = widget.note!.title;
-      _contentController.text = widget.note!.content;
-    }
+    print('widget.noteId: ${widget.noteId}');
 
     Future.microtask(() {
       final viewModel = context.read<AddEditNoteViewModel>();
@@ -50,8 +47,16 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
             final snackBar = SnackBar(content: Text(message));
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
+          loadNote: (Note note) {
+            _titleController.text = note.title;
+            _contentController.text = note.content;
+          },
         );
       });
+
+      if (widget.noteId != null) {
+        viewModel.loadNoteById(widget.noteId!);
+      }
     });
   }
 
@@ -71,7 +76,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           viewModel.onEvent(AddEditNoteEvent.saveNote(
-            widget.note == null ? null : widget.note!.id,
+            widget.noteId,
             _titleController.text,
             _contentController.text,
           ));

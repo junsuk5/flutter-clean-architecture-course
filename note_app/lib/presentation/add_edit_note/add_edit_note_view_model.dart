@@ -27,6 +27,15 @@ class AddEditNoteViewModel with ChangeNotifier {
     );
   }
 
+  void loadNoteById(int id) async {
+    final note = await repository.getNoteById(id);
+    if (note != null) {
+      _color = note.color;
+      _eventController.add(AddEditNoteUiEvent.loadNote(note));
+      notifyListeners();
+    }
+  }
+
   Future<void> _changColor(int color) async {
     _color = color;
     notifyListeners();

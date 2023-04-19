@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_note_app/di/provider_setup.dart';
-import 'package:flutter_note_app/domain/use_case/use_cases.dart';
 import 'package:flutter_note_app/presentation/notes/components/order_section.dart';
 import 'package:flutter_note_app/presentation/notes/notes_event.dart';
-import 'package:flutter_note_app/presentation/notes/notes_state.dart';
 import 'package:flutter_note_app/presentation/notes/notes_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'components/note_item.dart';
-
-final notesViewModel = StateNotifierProvider<NotesViewModel, NotesState>(
-    (ref) => getIt<NotesViewModel>());
 
 class NotesScreen extends ConsumerWidget {
   const NotesScreen({Key? key}) : super(key: key);
@@ -29,7 +23,9 @@ class NotesScreen extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: () {
-              ref.read(notesViewModel.notifier).onEvent(const NotesEvent.toggleOrderSection());
+              ref
+                  .read(notesViewModel.notifier)
+                  .onEvent(const NotesEvent.toggleOrderSection());
             },
             icon: const Icon(Icons.sort),
           ),
@@ -41,7 +37,9 @@ class NotesScreen extends ConsumerWidget {
           bool? isSaved = await context.push('/add_edit_note');
 
           if (isSaved != null && isSaved) {
-            ref.read(notesViewModel.notifier).onEvent(const NotesEvent.loadNotes());
+            ref
+                .read(notesViewModel.notifier)
+                .onEvent(const NotesEvent.loadNotes());
           }
         },
         child: const Icon(Icons.add),
@@ -56,7 +54,9 @@ class NotesScreen extends ConsumerWidget {
                   ? OrderSection(
                       noteOrder: state.noteOrder,
                       onOrderChanged: (noteOrder) {
-                        ref.read(notesViewModel.notifier).onEvent(NotesEvent.changeOrder(noteOrder));
+                        ref
+                            .read(notesViewModel.notifier)
+                            .onEvent(NotesEvent.changeOrder(noteOrder));
                       },
                     )
                   : Container(),
@@ -69,20 +69,26 @@ class NotesScreen extends ConsumerWidget {
                           await context.push('/add_edit_note/${note.id}');
 
                       if (isSaved != null && isSaved) {
-                        ref.read(notesViewModel.notifier).onEvent(const NotesEvent.loadNotes());
+                        ref
+                            .read(notesViewModel.notifier)
+                            .onEvent(const NotesEvent.loadNotes());
                       }
                     },
                     child: NoteItem(
                       note: note,
                       onDeleteTap: () {
-                        ref.read(notesViewModel.notifier).onEvent(NotesEvent.deleteNote(note));
+                        ref
+                            .read(notesViewModel.notifier)
+                            .onEvent(NotesEvent.deleteNote(note));
 
                         final snackBar = SnackBar(
                           content: const Text('노트가 삭제되었습니다'),
                           action: SnackBarAction(
                             label: '취소',
                             onPressed: () {
-                              ref.read(notesViewModel.notifier).onEvent(const NotesEvent.restoreNote());
+                              ref
+                                  .read(notesViewModel.notifier)
+                                  .onEvent(const NotesEvent.restoreNote());
                             },
                           ),
                         );

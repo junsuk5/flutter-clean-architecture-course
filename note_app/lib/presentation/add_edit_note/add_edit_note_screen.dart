@@ -9,9 +9,6 @@ import 'package:flutter_note_app/ui/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart';
 
-final addEditNoteViewModel = StateNotifierProvider<AddEditNoteViewModel, int>(
-        (ref) => getIt<AddEditNoteViewModel>());
-
 class AddEditNoteScreen extends ConsumerStatefulWidget {
   final int? noteId;
 
@@ -80,11 +77,13 @@ class _AddEditNoteScreenState extends ConsumerState<AddEditNoteScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ref.read(addEditNoteViewModel.notifier).onEvent(AddEditNoteEvent.saveNote(
-            widget.noteId,
-            _titleController.text,
-            _contentController.text,
-          ));
+          ref
+              .read(addEditNoteViewModel.notifier)
+              .onEvent(AddEditNoteEvent.saveNote(
+                widget.noteId,
+                _titleController.text,
+                _contentController.text,
+              ));
         },
         child: const Icon(Icons.save),
       ),
@@ -105,7 +104,8 @@ class _AddEditNoteScreenState extends ConsumerState<AddEditNoteScreen> {
                   .map(
                     (color) => InkWell(
                       onTap: () {
-                        ref.read(addEditNoteViewModel.notifier)
+                        ref
+                            .read(addEditNoteViewModel.notifier)
                             .onEvent(AddEditNoteEvent.changeColor(color.value));
                       },
                       child: _buildBackgroundColor(

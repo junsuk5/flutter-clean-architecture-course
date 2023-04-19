@@ -1,3 +1,4 @@
+import 'package:flutter_note_app/di/provider_setup.dart';
 import 'package:flutter_note_app/domain/model/note.dart';
 import 'package:flutter_note_app/domain/use_case/use_cases.dart';
 import 'package:flutter_note_app/domain/util/note_order.dart';
@@ -6,6 +7,9 @@ import 'package:flutter_note_app/presentation/notes/notes_event.dart';
 import 'package:flutter_note_app/presentation/notes/notes_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:injectable/injectable.dart';
+
+final notesViewModel = StateNotifierProvider<NotesViewModel, NotesState>(
+    (ref) => getIt<NotesViewModel>());
 
 @injectable
 class NotesViewModel extends StateNotifier<NotesState> {

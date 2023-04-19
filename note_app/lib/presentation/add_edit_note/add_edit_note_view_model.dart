@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_note_app/di/provider_setup.dart';
 import 'package:flutter_note_app/domain/model/note.dart';
 import 'package:flutter_note_app/domain/repository/note_repository.dart';
 import 'package:flutter_note_app/presentation/add_edit_note/add_edit_note_event.dart';
@@ -7,6 +8,9 @@ import 'package:flutter_note_app/presentation/add_edit_note/add_edit_note_ui_eve
 import 'package:flutter_note_app/ui/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:injectable/injectable.dart';
+
+final addEditNoteViewModel = StateNotifierProvider<AddEditNoteViewModel, int>(
+    (ref) => getIt<AddEditNoteViewModel>());
 
 @injectable
 class AddEditNoteViewModel extends StateNotifier<int> {
@@ -39,7 +43,8 @@ class AddEditNoteViewModel extends StateNotifier<int> {
 
   Future<void> _saveNote(int? id, String title, String content) async {
     if (title.isEmpty || content.isEmpty) {
-      _eventController.add(const AddEditNoteUiEvent.showSnackBar('제목이나 내용이 비어 있습니다'));
+      _eventController
+          .add(const AddEditNoteUiEvent.showSnackBar('제목이나 내용이 비어 있습니다'));
       return;
     }
 

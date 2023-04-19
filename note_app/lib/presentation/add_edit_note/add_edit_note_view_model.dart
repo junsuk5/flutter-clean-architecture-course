@@ -1,26 +1,22 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_note_app/domain/model/note.dart';
 import 'package:flutter_note_app/domain/repository/note_repository.dart';
 import 'package:flutter_note_app/presentation/add_edit_note/add_edit_note_event.dart';
 import 'package:flutter_note_app/presentation/add_edit_note/add_edit_note_ui_event.dart';
 import 'package:flutter_note_app/ui/colors.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class AddEditNoteViewModel with ChangeNotifier {
+class AddEditNoteViewModel extends StateNotifier<int> {
   final NoteRepository repository;
-
-  int _color = roseBud.value;
-
-  int get color => _color;
 
   final _eventController = StreamController<AddEditNoteUiEvent>.broadcast();
 
   Stream<AddEditNoteUiEvent> get eventStream => _eventController.stream;
 
-  AddEditNoteViewModel(this.repository);
+  AddEditNoteViewModel(this.repository) : super(roseBud.value);
 
   void onEvent(AddEditNoteEvent event) {
     event.when(
@@ -32,15 +28,13 @@ class AddEditNoteViewModel with ChangeNotifier {
   void loadNoteById(int id) async {
     final note = await repository.getNoteById(id);
     if (note != null) {
-      _color = note.color;
+      state = note.color;
       _eventController.add(AddEditNoteUiEvent.loadNote(note));
-      notifyListeners();
     }
   }
 
   Future<void> _changColor(int color) async {
-    _color = color;
-    notifyListeners();
+    state = color;
   }
 
   Future<void> _saveNote(int? id, String title, String content) async {
@@ -54,7 +48,7 @@ class AddEditNoteViewModel with ChangeNotifier {
         Note(
             title: title,
             content: content,
-            color: _color,
+            color: state,
             timestamp: DateTime.now().millisecondsSinceEpoch),
       );
     } else {
@@ -63,7 +57,7 @@ class AddEditNoteViewModel with ChangeNotifier {
             id: id,
             title: title,
             content: content,
-            color: _color,
+            color: state,
             timestamp: DateTime.now().millisecondsSinceEpoch),
       );
     }

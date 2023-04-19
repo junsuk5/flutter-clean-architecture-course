@@ -1,22 +1,27 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_note_app/di/provider_setup.dart';
 import 'package:flutter_note_app/domain/model/note.dart';
 import 'package:flutter_note_app/presentation/add_edit_note/add_edit_note_event.dart';
 import 'package:flutter_note_app/presentation/add_edit_note/add_edit_note_view_model.dart';
 import 'package:flutter_note_app/ui/colors.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart';
 
-class AddEditNoteScreen extends StatefulWidget {
+final addEditNoteViewModel = StateNotifierProvider<AddEditNoteViewModel, int>(
+        (ref) => getIt<AddEditNoteViewModel>());
+
+class AddEditNoteScreen extends ConsumerStatefulWidget {
   final int? noteId;
 
   const AddEditNoteScreen({Key? key, this.noteId}) : super(key: key);
 
   @override
-  State<AddEditNoteScreen> createState() => _AddEditNoteScreenState();
+  ConsumerState<AddEditNoteScreen> createState() => _AddEditNoteScreenState();
 }
 
-class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
+class _AddEditNoteScreenState extends ConsumerState<AddEditNoteScreen> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
   StreamSubscription? _streamSubscription;
@@ -36,7 +41,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
     print('widget.noteId: ${widget.noteId}');
 
     Future.microtask(() {
-      final viewModel = context.read<AddEditNoteViewModel>();
+      final viewModel = ref.read(addEditNoteViewModel.notifier);
 
       _streamSubscription = viewModel.eventStream.listen((event) {
         event.when(
@@ -70,12 +75,12 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<AddEditNoteViewModel>();
+    final currentColor = ref.watch(addEditNoteViewModel);
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          viewModel.onEvent(AddEditNoteEvent.saveNote(
+          ref.read(addEditNoteViewModel.notifier).onEvent(AddEditNoteEvent.saveNote(
             widget.noteId,
             _titleController.text,
             _contentController.text,
@@ -90,7 +95,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
           bottom: 16,
           top: 48,
         ),
-        color: Color(viewModel.color),
+        color: Color(currentColor),
         duration: const Duration(milliseconds: 500),
         child: ListView(
           children: [
@@ -100,12 +105,12 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
                   .map(
                     (color) => InkWell(
                       onTap: () {
-                        viewModel
+                        ref.read(addEditNoteViewModel.notifier)
                             .onEvent(AddEditNoteEvent.changeColor(color.value));
                       },
                       child: _buildBackgroundColor(
                         color: color,
-                        selected: viewModel.color == color.value,
+                        selected: currentColor == color.value,
                       ),
                     ),
                   )

@@ -16,29 +16,20 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/notes',
       builder: (BuildContext context, GoRouterState state) {
-        return ChangeNotifierProvider.value(
-          value: getIt<NotesViewModel>(),
-          child: const NotesScreen(),
-        );
+        return const NotesScreen();
       },
     ),
     GoRoute(
       path: '/add_edit_note',
       builder: (BuildContext context, GoRouterState state) {
-        return ChangeNotifierProvider(
-          create: (_) => getIt<AddEditNoteViewModel>(),
-          child: const AddEditNoteScreen(),
-        );
+        return const AddEditNoteScreen();
       },
     ),
     GoRoute(
       path: '/add_edit_note/:noteId',
       builder: (BuildContext context, GoRouterState state) {
-        return ChangeNotifierProvider(
-          create: (_) => getIt<AddEditNoteViewModel>(),
-          child: AddEditNoteScreen(
-            noteId: int.tryParse(state.params['noteId'] ?? ''),
-          ),
+        return AddEditNoteScreen(
+          noteId: int.tryParse(state.params['noteId'] ?? ''),
         );
       },
     ),

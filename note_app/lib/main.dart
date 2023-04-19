@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_note_app/di/provider_setup.dart';
 import 'package:flutter_note_app/routes.dart';
 import 'package:flutter_note_app/ui/colors.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   // 플랫폼 채널의 위젯 바인딩을 보장
@@ -9,7 +10,7 @@ void main() async {
 
   await configureDependencies();
 
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

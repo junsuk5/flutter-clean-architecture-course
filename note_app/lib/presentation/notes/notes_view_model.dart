@@ -1,29 +1,25 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_note_app/domain/model/note.dart';
 import 'package:flutter_note_app/domain/use_case/use_cases.dart';
 import 'package:flutter_note_app/domain/util/note_order.dart';
 import 'package:flutter_note_app/domain/util/order_type.dart';
 import 'package:flutter_note_app/presentation/notes/notes_event.dart';
 import 'package:flutter_note_app/presentation/notes/notes_state.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class NotesViewModel with ChangeNotifier {
+class NotesViewModel extends StateNotifier<NotesState> {
   final UseCases useCases;
-
-  NotesState _state = NotesState(
-    notes: [],
-    noteOrder: const NoteOrder.date(OrderType.descending()),
-    isOrderSectionVisible: false,
-  );
-
-  NotesState get state => _state;
 
   Note? _recentlyDeletedNote;
 
   NotesViewModel(
     this.useCases,
-  ) {
+  ) : super(NotesState(
+          notes: [],
+          noteOrder: const NoteOrder.date(OrderType.descending()),
+          isOrderSectionVisible: false,
+        )) {
     _loadNotes();
   }
 
@@ -33,26 +29,24 @@ class NotesViewModel with ChangeNotifier {
       deleteNote: _deleteNote,
       restoreNote: _restoreNote,
       changeOrder: (NoteOrder noteOrder) {
-        _state = state.copyWith(
+        state = state.copyWith(
           noteOrder: noteOrder,
         );
         _loadNotes();
       },
       toggleOrderSection: () {
-        _state = state.copyWith(
+        state = state.copyWith(
           isOrderSectionVisible: !state.isOrderSectionVisible,
         );
-        notifyListeners();
       },
     );
   }
 
   Future<void> _loadNotes() async {
     List<Note> notes = await useCases.getNotes(state.noteOrder);
-    _state = state.copyWith(
+    state = state.copyWith(
       notes: notes,
     );
-    notifyListeners();
   }
 
   Future<void> _deleteNote(Note note) async {

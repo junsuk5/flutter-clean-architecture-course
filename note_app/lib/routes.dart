@@ -17,7 +17,7 @@ final GoRouter router = GoRouter(
       path: '/notes',
       builder: (BuildContext context, GoRouterState state) {
         return ChangeNotifierProvider.value(
-          value: NotesViewModel(getIt<UseCases>()),
+          value: getIt<NotesViewModel>(),
           child: const NotesScreen(),
         );
       },
@@ -26,7 +26,7 @@ final GoRouter router = GoRouter(
       path: '/add_edit_note',
       builder: (BuildContext context, GoRouterState state) {
         return ChangeNotifierProvider(
-          create: (_) => AddEditNoteViewModel(getIt<NoteRepository>()),
+          create: (_) => getIt<AddEditNoteViewModel>(),
           child: const AddEditNoteScreen(),
         );
       },
@@ -35,7 +35,7 @@ final GoRouter router = GoRouter(
       path: '/add_edit_note/:noteId',
       builder: (BuildContext context, GoRouterState state) {
         return ChangeNotifierProvider(
-          create: (_) => AddEditNoteViewModel(getIt<NoteRepository>()),
+          create: (_) => getIt<AddEditNoteViewModel>(),
           child: AddEditNoteScreen(
             noteId: int.tryParse(state.params['noteId'] ?? ''),
           ),

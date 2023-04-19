@@ -7,7 +7,7 @@ void main() async {
   // 플랫폼 채널의 위젯 바인딩을 보장
   WidgetsFlutterBinding.ensureInitialized();
 
-  await setup();
+  await configureDependencies();
 
   runApp(const MyApp());
 }

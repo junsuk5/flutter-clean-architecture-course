@@ -16,8 +16,8 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/notes',
       builder: (BuildContext context, GoRouterState state) {
-        return ChangeNotifierProvider(
-          create: (_) => NotesViewModel(getIt<UseCases>()),
+        return ChangeNotifierProvider.value(
+          value: NotesViewModel(getIt<UseCases>()),
           child: const NotesScreen(),
         );
       },

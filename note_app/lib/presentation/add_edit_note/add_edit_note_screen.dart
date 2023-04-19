@@ -112,6 +112,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
                   .toList(),
             ),
             TextField(
+              key: const ValueKey('titleTextField'),
               controller: _titleController,
               maxLines: 1,
               style: Theme.of(context).textTheme.headline5!.copyWith(
@@ -123,6 +124,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
               ),
             ),
             TextField(
+              key: const ValueKey('contentTextField'),
               controller: _contentController,
               maxLines: null,
               style: Theme.of(context).textTheme.bodyText1!.copyWith(

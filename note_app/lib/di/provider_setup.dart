@@ -41,12 +41,4 @@ Future<void> setup() async {
       updateNote: UpdateNoteUseCase(getIt<NoteRepository>()),
     ),
   );
-
-  // NotesViewModel notesViewModel = NotesViewModel(useCases);
-  // AddEditNoteViewModel addEditNoteViewModel = AddEditNoteViewModel(repository);
-
-  // return [
-  //   ChangeNotifierProvider(create: (_) => notesViewModel),
-  //   ChangeNotifierProvider(create: (_) => addEditNoteViewModel),
-  // ];
 }

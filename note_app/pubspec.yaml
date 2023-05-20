@@ -41,6 +41,8 @@ dependencies:
   go_router: ^6.5.6
   get_it: ^7.2.0
   injectable: ^2.1.1
+  riverpod: ^2.3.5
+  flutter_riverpod: ^2.3.5
 
 dev_dependencies:
   integration_test:

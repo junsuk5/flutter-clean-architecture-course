@@ -23,8 +23,7 @@ class NotesScreen extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: () {
-              ref
-                  .read(notesViewModel.notifier)
+              ref.read(notesViewModel.notifier)
                   .onEvent(const NotesEvent.toggleOrderSection());
             },
             icon: const Icon(Icons.sort),

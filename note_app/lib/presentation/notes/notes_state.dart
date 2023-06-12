@@ -1,6 +1,5 @@
 import 'package:flutter_note_app/domain/model/note.dart';
 import 'package:flutter_note_app/domain/util/note_order.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'notes_state.freezed.dart';

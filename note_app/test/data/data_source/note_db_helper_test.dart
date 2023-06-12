@@ -1,7 +1,6 @@
 import 'package:flutter_note_app/data/data_source/note_db_helper.dart';
 import 'package:flutter_note_app/domain/model/note.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {

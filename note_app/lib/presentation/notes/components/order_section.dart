@@ -7,10 +7,10 @@ class OrderSection extends StatelessWidget {
   final Function(NoteOrder noteOrder) onOrderChanged;
 
   const OrderSection({
-    Key? key,
+    super.key,
     required this.noteOrder,
     required this.onOrderChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -53,9 +53,9 @@ class OrderSection extends StatelessWidget {
               value: const OrderType.ascending(),
               groupValue: noteOrder.orderType,
               onChanged: (OrderType? value) {
-                onOrderChanged(noteOrder.copyWith(
-                  orderType: const OrderType.ascending(),
-                ));
+                onOrderChanged(
+                  noteOrder.copyWith(orderType: const OrderType.ascending()),
+                );
               },
               activeColor: Colors.white,
             ),
@@ -64,9 +64,9 @@ class OrderSection extends StatelessWidget {
               value: const OrderType.descending(),
               groupValue: noteOrder.orderType,
               onChanged: (OrderType? value) {
-                onOrderChanged(noteOrder.copyWith(
-                  orderType: const OrderType.descending(),
-                ));
+                onOrderChanged(
+                  noteOrder.copyWith(orderType: const OrderType.descending()),
+                );
               },
               activeColor: Colors.white,
             ),

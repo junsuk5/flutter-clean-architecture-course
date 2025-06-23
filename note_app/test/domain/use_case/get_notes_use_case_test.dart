@@ -16,12 +16,16 @@ void main() {
     final getNotes = GetNotesUseCase(repository);
 
     // 동작 정의
-    when(repository.getNotes()).thenAnswer((_) async => [
-      Note(title: 'title', content: 'content', timestamp: 0, color: 1),
-      Note(title: 'title2', content: 'content2', timestamp: 2, color: 2),
-    ]);
+    when(repository.getNotes()).thenAnswer(
+      (_) async => [
+        Note(title: 'title', content: 'content', timestamp: 0, color: 1),
+        Note(title: 'title2', content: 'content2', timestamp: 2, color: 2),
+      ],
+    );
 
-    List<Note> result = await getNotes(const NoteOrder.date(OrderType.descending()));
+    List<Note> result = await getNotes(
+      const NoteOrder.date(OrderType.descending()),
+    );
     expect(result, isA<List<Note>>());
     expect(result.first.timestamp, 2);
     verify(repository.getNotes());

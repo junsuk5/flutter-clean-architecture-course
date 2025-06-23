@@ -6,11 +6,7 @@ class NoteItem extends StatelessWidget {
   final Note note;
   final Function? onDeleteTap;
 
-  const NoteItem({
-    Key? key,
-    required this.note,
-    this.onDeleteTap,
-  }) : super(key: key);
+  const NoteItem({super.key, required this.note, this.onDeleteTap});
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +28,18 @@ class NoteItem extends StatelessWidget {
                   note.title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.titleLarge!.apply(
-                    color: darkGray,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge!.apply(color: darkGray),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   note.content,
                   maxLines: 10,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodyMedium!.apply(
-                    color: darkGray,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium!.apply(color: darkGray),
                 ),
               ],
             ),

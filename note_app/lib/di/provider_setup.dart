@@ -19,7 +19,8 @@ Future<List<SingleChildWidget>> getProviders() async {
     version: 1,
     onCreate: (db, version) async {
       await db.execute(
-          'CREATE TABLE note (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, color INTEGER, timestamp INTEGER)');
+        'CREATE TABLE note (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, color INTEGER, timestamp INTEGER)',
+      );
     },
   );
 

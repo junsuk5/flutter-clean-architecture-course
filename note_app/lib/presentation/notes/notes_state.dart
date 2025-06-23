@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'notes_state.freezed.dart';
 
 @freezed
-class NotesState with _$NotesState {
+abstract class NotesState with _$NotesState {
   factory NotesState({
     required List<Note> notes,
     required NoteOrder noteOrder,

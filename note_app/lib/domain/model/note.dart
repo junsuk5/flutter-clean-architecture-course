@@ -5,7 +5,7 @@ part 'note.freezed.dart';
 part 'note.g.dart';
 
 @freezed
-class Note with _$Note {
+abstract class Note with _$Note {
   factory Note({
     required String title,
     required String content,

@@ -10,7 +10,7 @@ import 'package:flutter_note_app/ui/colors.dart';
 class AddEditNoteViewModel with ChangeNotifier {
   final NoteRepository repository;
 
-  int _color = roseBud.value;
+  int _color = roseBud.toARGB32();
 
   int get color => _color;
 
@@ -21,10 +21,12 @@ class AddEditNoteViewModel with ChangeNotifier {
   AddEditNoteViewModel(this.repository);
 
   void onEvent(AddEditNoteEvent event) {
-    event.when(
-      changeColor: _changColor,
-      saveNote: _saveNote,
-    );
+    switch (event) {
+      case ChangeColor(:final color):
+        _changColor(color);
+      case SaveNote(:final id, :final title, :final content):
+        _saveNote(id, title, content);
+    }
   }
 
   Future<void> _changColor(int color) async {
@@ -34,29 +36,33 @@ class AddEditNoteViewModel with ChangeNotifier {
 
   Future<void> _saveNote(int? id, String title, String content) async {
     if (title.isEmpty || content.isEmpty) {
-      _eventController.add(const AddEditNoteUiEvent.showSnackBar('제목이나 내용이 비어 있습니다'));
+      _eventController.add(
+        const AddEditNoteUiEvent.showSnackBar('제목이나 내용이 비어 있습니다'),
+      );
       return;
     }
 
     if (id == null) {
       await repository.insertNote(
         Note(
-            title: title,
-            content: content,
-            color: _color,
-            timestamp: DateTime.now().millisecondsSinceEpoch),
+          title: title,
+          content: content,
+          color: _color,
+          timestamp: DateTime.now().millisecondsSinceEpoch,
+        ),
       );
     } else {
       await repository.updateNote(
         Note(
-            id: id,
-            title: title,
-            content: content,
-            color: _color,
-            timestamp: DateTime.now().millisecondsSinceEpoch),
+          id: id,
+          title: title,
+          content: content,
+          color: _color,
+          timestamp: DateTime.now().millisecondsSinceEpoch,
+        ),
       );
     }
 
-    _eventController.add(const AddEditNoteUiEvent.saveNote());
+    _eventController.add(const AddEditNoteUiEvent.savedNote());
   }
 }

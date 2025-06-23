@@ -1,47 +1,39 @@
 import 'package:flutter_note_app/domain/model/note.dart';
 import 'package:flutter_note_app/domain/repository/note_repository.dart';
 import 'package:flutter_note_app/domain/util/note_order.dart';
+import 'package:flutter_note_app/domain/util/order_type.dart';
 
 class GetNotesUseCase {
-  final NoteRepository repository;
+  final NoteRepository _repository;
 
-  GetNotesUseCase(this.repository);
+  GetNotesUseCase(this._repository);
 
   Future<List<Note>> call(NoteOrder noteOrder) async {
-    List<Note> notes = await repository.getNotes();
+    List<Note> notes = await _repository.getNotes();
 
-    noteOrder.when(
-      title: (orderType) {
-        orderType.when(
-          ascending: () {
+    switch (noteOrder) {
+      case NoteOrderTitle(:final orderType):
+        switch (orderType) {
+          case Ascending():
             notes.sort((a, b) => a.title.compareTo(b.title));
-          },
-          descending: () {
+          case Descending():
             notes.sort((a, b) => -a.title.compareTo(b.title));
-          },
-        );
-      },
-      date: (orderType) {
-        orderType.when(
-          ascending: () {
+        }
+      case NoteOrderDate(:final orderType):
+        switch (orderType) {
+          case Ascending():
             notes.sort((a, b) => a.timestamp.compareTo(b.timestamp));
-          },
-          descending: () {
+          case Descending():
             notes.sort((a, b) => -a.timestamp.compareTo(b.timestamp));
-          },
-        );
-      },
-      color: (orderType) {
-        orderType.when(
-          ascending: () {
+        }
+      case NoteOrderColor(:final orderType):
+        switch (orderType) {
+          case Ascending():
             notes.sort((a, b) => a.color.compareTo(b.color));
-          },
-          descending: () {
+          case Descending():
             notes.sort((a, b) => -a.color.compareTo(b.color));
-          },
-        );
-      },
-    );
+        }
+    }
 
     return notes;
   }

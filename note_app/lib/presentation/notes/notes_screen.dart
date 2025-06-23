@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'components/note_item.dart';
 
 class NotesScreen extends StatelessWidget {
-  const NotesScreen({Key? key}) : super(key: key);
+  const NotesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +17,7 @@ class NotesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Your note',
-          style: TextStyle(fontSize: 30),
-        ),
+        title: const Text('Your note', style: TextStyle(fontSize: 30)),
         actions: [
           IconButton(
             onPressed: () {
@@ -66,9 +63,7 @@ class NotesScreen extends StatelessWidget {
                       bool? isSaved = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AddEditNoteScreen(
-                            note: note,
-                          ),
+                          builder: (context) => AddEditNoteScreen(note: note),
                         ),
                       );
 

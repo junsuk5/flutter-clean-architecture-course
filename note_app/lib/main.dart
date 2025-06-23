@@ -10,12 +10,7 @@ void main() async {
 
   final providers = await getProviders();
 
-  runApp(
-    MultiProvider(
-      providers: providers,
-      child: const MyApp(),
-    ),
-  );
+  runApp(MultiProvider(providers: providers, child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -31,17 +26,12 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.white,
         scaffoldBackgroundColor: darkGray,
         canvasColor: darkGray,
-        floatingActionButtonTheme:
-            Theme.of(context).floatingActionButtonTheme.copyWith(
-                  backgroundColor: Colors.white,
-                  foregroundColor: darkGray,
-                ),
-        appBarTheme: Theme.of(context).appBarTheme.copyWith(
-              backgroundColor: darkGray,
-            ),
-        textTheme: Theme.of(context).textTheme.apply(
-          bodyColor: Colors.white,
-        ),
+        floatingActionButtonTheme: Theme.of(context).floatingActionButtonTheme
+            .copyWith(backgroundColor: Colors.white, foregroundColor: darkGray),
+        appBarTheme: Theme.of(
+          context,
+        ).appBarTheme.copyWith(backgroundColor: darkGray),
+        textTheme: Theme.of(context).textTheme.apply(bodyColor: Colors.white),
       ),
       home: const NotesScreen(),
     );

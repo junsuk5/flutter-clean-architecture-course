@@ -2,13 +2,13 @@ import 'package:flutter_note_app/domain/model/note.dart';
 import 'package:sqflite/sqflite.dart';
 
 class NoteDbHelper {
-  Database db;
+  final Database _db;
 
-  NoteDbHelper(this.db);
+  NoteDbHelper(this._db);
 
   Future<Note?> getNoteById(int id) async {
     // SELECT * FROM note WHERE id = 1
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> maps = await _db.query(
       'note',
       where: 'id = ?',
       whereArgs: [id],
@@ -22,16 +22,16 @@ class NoteDbHelper {
   }
 
   Future<List<Note>> getNotes() async {
-    final maps = await db.query('note');
+    final maps = await _db.query('note');
     return maps.map((e) => Note.fromJson(e)).toList();
   }
 
   Future<void> insertNote(Note note) async {
-    await db.insert('note', note.toJson());
+    await _db.insert('note', note.toJson());
   }
 
   Future<void> updateNote(Note note) async {
-    await db.update(
+    await _db.update(
       'note',
       note.toJson(),
       where: 'id = ?',
@@ -40,9 +40,6 @@ class NoteDbHelper {
   }
 
   Future<void> deleteNote(Note note) async {
-    await db.delete('note',
-      where: 'id = ?',
-      whereArgs: [note.id],
-    );
+    await _db.delete('note', where: 'id = ?', whereArgs: [note.id]);
   }
 }

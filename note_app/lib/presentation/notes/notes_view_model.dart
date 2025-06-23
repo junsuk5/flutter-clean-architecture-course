@@ -19,37 +19,32 @@ class NotesViewModel with ChangeNotifier {
 
   Note? _recentlyDeletedNote;
 
-  NotesViewModel(
-    this.useCases,
-  ) {
+  NotesViewModel(this.useCases) {
     _loadNotes();
   }
 
   void onEvent(NotesEvent event) {
-    event.when(
-      loadNotes: _loadNotes,
-      deleteNote: _deleteNote,
-      restoreNote: _restoreNote,
-      changeOrder: (NoteOrder noteOrder) {
-        _state = state.copyWith(
-          noteOrder: noteOrder,
-        );
+    switch (event) {
+      case LoadNotes():
         _loadNotes();
-      },
-      toggleOrderSection: () {
+      case DeleteNote(:final note):
+        _deleteNote(note);
+      case RestoreNote():
+        _restoreNote();
+      case ChangeOrder(:final noteOrder):
+        _state = state.copyWith(noteOrder: noteOrder);
+        _loadNotes();
+      case ToggleOrderSection():
         _state = state.copyWith(
           isOrderSectionVisible: !state.isOrderSectionVisible,
         );
         notifyListeners();
-      },
-    );
+    }
   }
 
   Future<void> _loadNotes() async {
     List<Note> notes = await useCases.getNotes(state.noteOrder);
-    _state = state.copyWith(
-      notes: notes,
-    );
+    _state = state.copyWith(notes: notes);
     notifyListeners();
   }
 

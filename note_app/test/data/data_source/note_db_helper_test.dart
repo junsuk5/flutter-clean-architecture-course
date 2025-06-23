@@ -8,25 +8,21 @@ void main() {
     final db = await databaseFactoryFfi.openDatabase(inMemoryDatabasePath);
 
     await db.execute(
-        'CREATE TABLE note (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, color INTEGER, timestamp INTEGER)');
+      'CREATE TABLE note (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, color INTEGER, timestamp INTEGER)',
+    );
 
     final noteDbHelper = NoteDbHelper(db);
 
-    await noteDbHelper.insertNote(Note(
-      title: 'test',
-      content: 'test',
-      color: 1,
-      timestamp: 1,
-    ));
+    await noteDbHelper.insertNote(
+      Note(title: 'test', content: 'test', color: 1, timestamp: 1),
+    );
 
     expect((await noteDbHelper.getNotes()).length, 1);
 
     Note note = (await noteDbHelper.getNoteById(1))!;
     expect(note.id, 1);
 
-    await noteDbHelper.updateNote(note.copyWith(
-      title: 'change'
-    ));
+    await noteDbHelper.updateNote(note.copyWith(title: 'change'));
 
     note = (await noteDbHelper.getNoteById(1))!;
     expect(note.title, 'change');

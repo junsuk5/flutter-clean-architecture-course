@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:image_search/presentation/home/home_view_model.dart';
+import 'package:image_search/presentation/home/home_ui_event.dart';
 import 'package:image_search/presentation/home/components/photo_widget.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -21,13 +22,19 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
 
     Future.microtask(() {
-      final viewModel = context.read<HomeViewModel>();
-      _subscription = viewModel.eventStream.listen((event) {
-        event.when(showSnackBar: (message) {
-          final snackBar = SnackBar(content: Text(message));
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      // context 를 안전하게 사용하기 위해 검사
+      if (mounted) {
+        final viewModel = context.read<HomeViewModel>();
+        _subscription = viewModel.eventStream.listen((event) {
+          switch (event) {
+            case ShowSnackBar(:final message):
+              if (mounted) {
+                final snackBar = SnackBar(content: Text(message));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
+          }
         });
-      });
+      }
     });
   }
 
@@ -46,10 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
-          '이미지 검색 앱',
-          style: TextStyle(color: Colors.black),
-        ),
+        title: const Text('이미지 검색 앱', style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,
         elevation: 0,
       ),
@@ -80,15 +84,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: state.photos.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                    ),
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
+                        ),
                     itemBuilder: (context, index) {
                       final photo = state.photos[index];
-                      return PhotoWidget(
-                        photo: photo,
-                      );
+                      return PhotoWidget(photo: photo);
                     },
                   ),
                 ),

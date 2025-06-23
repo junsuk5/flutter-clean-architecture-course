@@ -5,9 +5,9 @@ class PhotoWidget extends StatelessWidget {
   final Photo photo;
 
   const PhotoWidget({
-    Key? key,
+    super.key,
     required this.photo,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

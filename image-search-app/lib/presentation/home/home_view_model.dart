@@ -26,15 +26,13 @@ class HomeViewModel with ChangeNotifier {
 
     final Result<List<Photo>> result = await getPhotosUseCase(query);
 
-    result.when(
-      success: (photos) {
-        _state = state.copyWith(photos: photos);
+    switch (result) {
+      case Success(:final data):
+        _state = state.copyWith(photos: data);
         notifyListeners();
-      },
-      error: (message) {
-        _eventController.add(HomeUiEvent.showSnackBar(message));
-      },
-    );
+      case Error(:final e):
+        _eventController.add(HomeUiEvent.showSnackBar(e));
+    }
     _state = state.copyWith(isLoading: false);
     notifyListeners();
   }
